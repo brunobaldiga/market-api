@@ -1,0 +1,13 @@
+spring:
+  application:
+    name=market-api
+  jpa:
+    show-sql: true
+    hibernate:
+      dll-auto: update
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/market
+    username: admin
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
