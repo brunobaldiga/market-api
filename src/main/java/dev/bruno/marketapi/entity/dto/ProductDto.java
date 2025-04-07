@@ -2,13 +2,14 @@ package dev.bruno.marketapi.entity.dto;
 
 import dev.bruno.marketapi.entity.Product;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record CreateProductDto(
+public record ProductDto(
         @NotBlank String name,
-        @NotBlank BigDecimal price,
-        @NotBlank Integer quantity
+        @Positive BigDecimal price,
+        @Positive Integer quantity
 ) {
 
     public Product toProduct() {
