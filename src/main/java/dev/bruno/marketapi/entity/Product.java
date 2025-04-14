@@ -1,11 +1,12 @@
 package dev.bruno.marketapi.entity;
 
+import dev.bruno.marketapi.entity.dto.ProductDto;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "product")
+@Table(name = "tb_product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,28 +27,25 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Long getId() {
-        return id;
+    public ProductDto toDto() {
+        return new ProductDto(
+                id,
+                name,
+                price,
+                quantity
+        );
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Integer getQuantity() {
