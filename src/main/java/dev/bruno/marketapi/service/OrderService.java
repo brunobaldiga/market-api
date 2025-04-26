@@ -6,6 +6,8 @@ import dev.bruno.marketapi.entity.Product;
 import dev.bruno.marketapi.entity.dto.CreateOrderDto;
 import dev.bruno.marketapi.entity.dto.CreateOrderItemDto;
 import dev.bruno.marketapi.entity.dto.OrderDto;
+import dev.bruno.marketapi.exception.EntityNotFoundException;
+import dev.bruno.marketapi.exception.InsufficientStockException;
 import dev.bruno.marketapi.repository.OrderRepository;
 import dev.bruno.marketapi.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -32,11 +34,11 @@ public class OrderService {
 
         for (CreateOrderItemDto orderItemDto : orderDto.orderItems()) {
             Product product = productRepository.findById(orderItemDto.productId()).orElseThrow(
-                    () -> new RuntimeException("Product not found")
+                    () -> new EntityNotFoundException(orderItemDto.productId())
             );
 
-            if (product.getQuantity() <= 0) {
-                throw new RuntimeException("Product has no quantity");
+            if (product.getQuantity() <= 0 || product.getQuantity() < orderItemDto.quantity()) {
+                throw new InsufficientStockException(product.getName());
             }
 
             product.setQuantity(product.getQuantity() - orderItemDto.quantity());
@@ -54,12 +56,10 @@ public class OrderService {
         Order order = new Order(LocalDateTime.now(), orderItems);
         orderItems.forEach(item -> {
             item.setOrder(order);
-            order.setTotal(order.getTotal().add(
-                    item.getPriceAtPurchase().multiply(
-                            BigDecimal.valueOf(item.getQuantity())
-                    ))
-            );
         });
+
+
+        order.calculateTotal();
 
         Order savedOrder = orderRepository.save(order);
         return savedOrder.toDto();
@@ -67,7 +67,7 @@ public class OrderService {
 
     public OrderDto findOrderById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Order not found")
+                () -> new EntityNotFoundException(id)
         );
 
         return order.toDto();

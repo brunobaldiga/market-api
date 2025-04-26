@@ -15,7 +15,8 @@ public record OrderDto(
         @NotNull @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime createdAt,
 
+        @NotNull BigDecimal change,
         @Positive BigDecimal total,
-        @NotNull @Size(min = 1) List<OrderItemDto> orderItems
-) {
-}
+        @NotNull @Size(min = 1) List<OrderItemDto> orderItems,
+        @NotNull List<PaymentDto> payments
+) {}

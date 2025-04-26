@@ -7,7 +7,10 @@ spring:
       ddl-auto: update
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/market
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/market
     username: admin
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
+client:
+  card-validator-service:
+    url: https://run.mocky.io/v3/1164e4ea-6e5d-48c3-8c97-60efd9508789
