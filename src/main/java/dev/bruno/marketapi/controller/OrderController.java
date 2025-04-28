@@ -3,6 +3,8 @@ package dev.bruno.marketapi.controller;
 import dev.bruno.marketapi.entity.dto.CreateOrderDto;
 import dev.bruno.marketapi.entity.dto.OrderDto;
 import dev.bruno.marketapi.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/order")
+@Tag(name = "Order", description = "Endpoints for creating and retrieving orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -20,6 +23,10 @@ public class OrderController {
     }
 
     @PostMapping("/create-order")
+    @Operation(
+            summary = "Create a new order",
+            description = "Creates a new order with the provided products and customer details. Returns the created order information."
+    )
     public ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderDto createOrderDto) {
         OrderDto orderDto = orderService.createOrder(createOrderDto);
 
@@ -34,6 +41,10 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Get an order by ID",
+            description = "Retrieves the details of an existing order by its unique ID."
+    )
     public ResponseEntity<OrderDto> getOrder(@PathVariable long id) {
         return ResponseEntity.ok(orderService.findOrderById(id));
     }
