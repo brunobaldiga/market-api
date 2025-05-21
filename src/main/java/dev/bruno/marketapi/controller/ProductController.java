@@ -48,4 +48,37 @@ public class ProductController {
 
         return ResponseEntity.ok().body(productDto);
     }
+
+    @GetMapping
+    @Operation(
+            summary = "Get a product by name",
+            description = "Retrieves the details of a specific product using its unique name."
+    )
+    public ResponseEntity<ProductDto> findProductByName(@RequestParam String name) {
+        ProductDto productDto = productService.findProductByName(name);
+
+        return ResponseEntity.ok().body(productDto);
+    }
+
+    @PutMapping("/update-product/{id}")
+    @Operation(
+            summary = "Update a product by ID",
+            description = "Updates the details of a specific product using its unique ID."
+    )
+    public ResponseEntity<ProductDto> updateProductById(@PathVariable Long id, @RequestBody @Valid ProductDto productDto) {
+        ProductDto updatedProductDto = productService.updateProductById(id, productDto);
+
+        return ResponseEntity.ok().body(updatedProductDto);
+    }
+
+    @DeleteMapping("/delete-product/{id}")
+    @Operation(
+            summary = "Delete a product by ID",
+            description = "Deletes a product from database using its unique ID."
+    )
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProductById(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

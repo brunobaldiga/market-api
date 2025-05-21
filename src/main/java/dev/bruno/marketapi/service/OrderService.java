@@ -13,7 +13,6 @@ import dev.bruno.marketapi.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +70,14 @@ public class OrderService {
         );
 
         return order.toDto();
+    }
+
+    public void deleteOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(id)
+        );
+
+        orderRepository.delete(order);
+
     }
 }

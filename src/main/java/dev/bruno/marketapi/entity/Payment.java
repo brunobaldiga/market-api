@@ -35,10 +35,19 @@ public class Payment {
         this.amountPaid = amountPaid;
     }
 
+    public Payment(Long id, Order order, PaymentMethod paymentMethod, BigDecimal amountPaid) {
+        this.id = id;
+        this.order = order;
+        this.paymentMethod = paymentMethod;
+        this.amountPaid = amountPaid;
+    }
+
     public PaymentDto toDto(BigDecimal total) {
+        Long orderId = order != null ? order.getId() : null;
+
         return new PaymentDto(
                 id,
-                order.getId(),
+                orderId,
                 paymentMethod,
                 amountPaid
         );

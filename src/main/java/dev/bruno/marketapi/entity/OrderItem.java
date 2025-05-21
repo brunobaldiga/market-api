@@ -22,8 +22,20 @@ public class OrderItem {
     @ManyToOne
     private Order order;
 
-    public OrderItem() {
+    public OrderItem() {}
 
+    public OrderItem(Product product, Integer quantity, BigDecimal priceAtPurchase) {
+        this.product = product;
+        this.quantity = quantity;
+        this.priceAtPurchase = priceAtPurchase;
+    }
+
+    public OrderItem(Long id, Product product, Integer quantity, BigDecimal priceAtPurchase, Order order) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.priceAtPurchase = priceAtPurchase;
+        this.order = order;
     }
 
     public OrderItemDto toDto() {
@@ -36,21 +48,43 @@ public class OrderItem {
         );
     }
 
-    public OrderItem(Product product, Integer quantity, BigDecimal priceAtPurchase) {
-        this.product = product;
-        this.quantity = quantity;
-        this.priceAtPurchase = priceAtPurchase;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public BigDecimal getPriceAtPurchase() {
         return priceAtPurchase;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public void setPriceAtPurchase(BigDecimal priceAtPurchase) {
+        this.priceAtPurchase = priceAtPurchase;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

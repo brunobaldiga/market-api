@@ -34,6 +34,21 @@ public class Order {
 
     public Order() {}
 
+    public Order(LocalDateTime createdAt, List<OrderItem> orderItems) {
+        this.createdAt = createdAt;
+        this.orderItems = orderItems;
+    }
+
+    public Order(Long id, LocalDateTime createdAt, BigDecimal total, List<OrderItem> orderItems, List<Payment> payments, Boolean isPaid, BigDecimal changeAmount) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.total = total;
+        this.orderItems = orderItems;
+        this.payments = payments;
+        this.isPaid = isPaid;
+        this.changeAmount = changeAmount;
+    }
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -70,14 +85,14 @@ public class Order {
     }
 
     public BigDecimal calculatePaymentsTotal() {
+        if (payments == null) {
+            this.setTotal(BigDecimal.ZERO);
+            return getTotal();
+        }
+
         return this.getPayments().stream().map(
                 Payment::getAmountPaid
         ).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public Order(LocalDateTime createdAt, List<OrderItem> orderItems) {
-        this.createdAt = createdAt;
-        this.orderItems = orderItems;
     }
 
     public Long getId() {

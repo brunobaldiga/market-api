@@ -52,7 +52,7 @@ public class PaymentService {
         if (createPaymentDto.paymentMethod().equals(PaymentMethod.DEBIT_CARD) || createPaymentDto.paymentMethod().equals(PaymentMethod.CREDIT_CARD)) {
             ValidationResponse response = cardValidatorClient.isValid().getBody();
 
-            if (response == null || !Boolean.TRUE.equals(response.isSuccess())) {
+            if (response == null || !Boolean.TRUE.equals(response.isSuccess()) || createPaymentDto.cardInformation() == null) {
                 throw new InvalidCardException();
             }
 

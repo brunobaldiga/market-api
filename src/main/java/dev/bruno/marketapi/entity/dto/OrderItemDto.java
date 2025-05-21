@@ -1,6 +1,5 @@
 package dev.bruno.marketapi.entity.dto;
 
-import dev.bruno.marketapi.entity.Product;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

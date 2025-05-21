@@ -1,7 +1,9 @@
 package dev.bruno.marketapi.controller;
 
+import dev.bruno.marketapi.entity.Order;
 import dev.bruno.marketapi.entity.dto.CreateOrderDto;
 import dev.bruno.marketapi.entity.dto.OrderDto;
+import dev.bruno.marketapi.entity.dto.ProductDto;
 import dev.bruno.marketapi.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,5 +49,16 @@ public class OrderController {
     )
     public ResponseEntity<OrderDto> getOrder(@PathVariable long id) {
         return ResponseEntity.ok(orderService.findOrderById(id));
+    }
+
+    @DeleteMapping("/delete-order/{id}")
+    @Operation(
+            summary = "Delete an order by ID",
+            description = "Deletes an order from database using its unique ID."
+    )
+    public ResponseEntity<Void> deleteOrderById(@PathVariable Long id) {
+        orderService.deleteOrderById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
